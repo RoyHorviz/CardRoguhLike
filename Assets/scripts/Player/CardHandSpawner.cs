@@ -39,18 +39,23 @@ public class CardHandSpawner : MonoBehaviour
 
     private void Start()
     {
+        // Bind play button to generate a random deck
         if (playButton != null)
             playButton.onClick.AddListener(GenerateRandomDeck);
         else
             Debug.LogError("Play button not assigned!");
 
+        // Bind spawn button to draw a card
         if (spawnButton != null)
             spawnButton.onClick.AddListener(SpawnRandomCardFromDeck);
         else
             Debug.LogError("Spawn button not assigned!");
 
+        // Bind discard button to discard selected cards via CardSelectionManager
         if (discardButton != null)
-            discardButton.onClick.AddListener(DiscardSelectedCards);
+            discardButton.onClick.AddListener(() => {
+                CardSelectionManager.Instance.DiscardSelectedCards();
+            });
         else
             Debug.LogError("Discard button not assigned!");
 
@@ -105,7 +110,7 @@ public class CardHandSpawner : MonoBehaviour
             GameObject newCard = Instantiate(selectedPrefab, handArea);
             newCard.transform.localScale = Vector3.one;
 
-            newCard.AddComponent<CardSelectionHandler>();
+            newCard.AddComponent<CardSelectionHandler>(); // Ensure the card can be selected
 
             SpawnedCards.Add(newCard);
         }
@@ -119,7 +124,7 @@ public class CardHandSpawner : MonoBehaviour
         Debug.Log($"Spawned {selectedElement} card! {DeckToDrawFrom.Count} cards left in deck.");
     }
 
-    // מבטל בחירה מכל הקלפים ביד
+    // Deselect all cards in hand (visual + logic reset)
     public void DeselectAllCardsInHand()
     {
         foreach (GameObject card in SpawnedCards)
@@ -128,43 +133,8 @@ public class CardHandSpawner : MonoBehaviour
             if (selection != null)
             {
                 selection.Deselect();
-                selection.ShakeOnDeselect(); // מוסיפים גם שקשוק בעת ביטול בחירה
+                selection.ShakeOnDeselect();
             }
         }
     }
-
-
-
-    private void DiscardSelectedCards()
-    {
-        List<GameObject> cardsToDiscard = new List<GameObject>();
-
-        // שלב 1: לאסוף קלפים שנבחרו
-        foreach (GameObject card in SpawnedCards)
-        {
-            CardSelectionHandler selection = card.GetComponent<CardSelectionHandler>();
-            if (selection != null && selection.IsSelected)
-            {
-                cardsToDiscard.Add(card);
-            }
-        }
-
-        // שלב 2: למחוק את הקלפים שנבחרו
-        foreach (GameObject card in cardsToDiscard)
-        {
-            SpawnedCards.Remove(card);
-            DiscardPile.Add(card);
-            Destroy(card);
-        }
-
-        // שלב 3: איפוס כל הבחירות
-        DeselectAllCardsInHand();
-
-        Debug.Log($"Discarded {cardsToDiscard.Count} cards. Remaining in hand: {SpawnedCards.Count}. Discard pile size: {DiscardPile.Count}");
-    }
-
-
-
-
-
 }

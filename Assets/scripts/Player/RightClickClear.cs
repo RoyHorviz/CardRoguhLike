@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class RightClickClear : MonoBehaviour
 {
-    private void Update()
+    void Update()
     {
-        if (Input.GetMouseButtonDown(1)) // Right Click
+        // Detect right mouse button click
+        if (Input.GetMouseButtonDown(1))
         {
+            // Clear all selected cards
             CardSelectionManager.Instance.DeselectAllCards();
         }
     }

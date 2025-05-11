@@ -5,6 +5,7 @@ public class CardClickScaler : MonoBehaviour, IPointerClickHandler
 {
     private RectTransform rectTransform;
     private bool isSelected = false;
+    private bool isDiscarded = false;
 
     private void Awake()
     {
@@ -13,6 +14,8 @@ public class CardClickScaler : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (isDiscarded) return;
+
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             if (!isSelected)
@@ -24,25 +27,30 @@ public class CardClickScaler : MonoBehaviour, IPointerClickHandler
             }
             else
             {
-                SetSelected(false);
-                CardSelectionManager.Instance.DeselectCard(this);
+                SetSelected(false, true); // Manual deselection
             }
         }
     }
 
-    public void SetSelected(bool selected)
+    public void SetSelected(bool selected, bool manual = false)
     {
         isSelected = selected;
-        rectTransform.localScale = selected ? Vector3.one * 1.2f : Vector3.one * 1.0f;
+        rectTransform.localScale = selected ? Vector3.one * 1.2f : Vector3.one;
 
-        if (!selected)
+        if (!selected && manual)
         {
-            CardSelectionManager.Instance.DeselectCard(this); 
+            CardSelectionManager.Instance.DeselectCard(this);
         }
     }
 
     public void Discard()
     {
-        gameObject.SetActive(false);
+        isDiscarded = true;
+
+        // Fully deselect from selection manager
+        SetSelected(false, true); // 'true' makes sure it's removed from the list
+
+        gameObject.SetActive(false); // Hide the card
     }
+
 }
