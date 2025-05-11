@@ -37,7 +37,7 @@ public class CardClickScaler : MonoBehaviour, IPointerClickHandler
 
         if (!selected)
         {
-            CardSelectionManager.Instance.DeselectCard(this); // לדווח למנהל להסיר אותי מהרשימה
+            CardSelectionManager.Instance.DeselectCard(this); 
         }
     }
 

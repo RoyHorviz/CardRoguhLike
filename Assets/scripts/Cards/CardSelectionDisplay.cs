@@ -1,9 +1,9 @@
 using UnityEngine;
-using UnityEngine.UI; // חשוב שזה יופיע!
+using UnityEngine.UI; 
 
 public class CardSelectionDisplay : MonoBehaviour
 {
-    public Text selectedCountText; // לא TMP_Text
+    public Text selectedCountText; 
 
     private void Update()
     {
