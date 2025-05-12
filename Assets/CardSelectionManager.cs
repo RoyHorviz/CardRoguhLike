@@ -11,11 +11,12 @@ public class CardSelectionManager : MonoBehaviour
     [Tooltip("Maximum number of cards that can be selected at once.")]
     public int maxSelectedCards = 5;
 
-    private HashSet<CardClickScaler> selectedCards = new HashSet<CardClickScaler>();
+    // Changed from HashSet to List to preserve the order of selection
+    private List<CardClickScaler> selectedCards = new List<CardClickScaler>();
 
     private void Awake()
     {
-        // Implement singleton pattern to ensure only one instance exists.
+        // Singleton pattern to ensure a single instance
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -27,7 +28,7 @@ public class CardSelectionManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Attempts to select a card. Returns false if selection limit is reached or card is already selected.
+    /// Attempts to select a card. Returns false if the selection limit is reached or the card is already selected.
     /// </summary>
     public bool TrySelectCard(CardClickScaler card)
     {
@@ -51,37 +52,30 @@ public class CardSelectionManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Deselects all selected cards and clears the internal list.
+    /// Deselects all selected cards and clears the selection list.
     /// </summary>
     public void DeselectAllCards()
     {
-        // Iterate over a copy of the selected cards to avoid modifying the collection while iterating
         foreach (var card in new List<CardClickScaler>(selectedCards))
         {
-            // Attempt to get the visual selection handler component
             var handler = card.GetComponent<CardSelectionHandler>();
             if (handler != null)
             {
-                handler.Deselect(); // Restore visual state (opacity, etc.)
+                handler.Deselect(); // Reset visual state
             }
 
-            card.SetSelected(false); // Update the internal selection logic
+            card.SetSelected(false); // Reset logical state
         }
 
-        selectedCards.Clear(); // Clear the logical selection list
+        selectedCards.Clear();
         Debug.Log("Deselect all called. Total selected after: " + selectedCards.Count);
     }
 
-
-
-
-
     /// <summary>
-    /// Discards all selected cards and clears the list.
+    /// Discards all selected cards and clears the selection list.
     /// </summary>
     public void DiscardSelectedCards()
     {
-        // Create a copy of the collection to avoid modification during iteration.
         foreach (var card in new List<CardClickScaler>(selectedCards))
         {
             card.Discard();
@@ -96,12 +90,61 @@ public class CardSelectionManager : MonoBehaviour
     /// </summary>
     public int GetSelectedCount()
     {
-        return   this.selectedCards.Count;
+        return selectedCards.Count;
     }
 
-    public IEnumerable<CardClickScaler> GetSelectedCards()
+    /// <summary>
+    /// Returns the list of currently selected cards in the order they were selected.
+    /// </summary>
+    public List<CardClickScaler> GetSelectedCards()
     {
         return selectedCards;
     }
+
+    /// <summary>
+    /// Moves the selected cards to a specified parent transform, preserving their selection order,
+    /// and removes them from the hand. A maximum of 5 cards are allowed in the target area.
+    /// </summary>
+    /// <param name="destination">The transform to which the cards will be moved.</param>
+    public void MoveSelectedCardsToArea(Transform destination)
+    {
+        int existingCardCount = destination.childCount;
+        int availableSlots = 5 - existingCardCount;
+
+        if (availableSlots <= 0)
+        {
+            Debug.LogWarning("Play area is already full. Max 5 cards allowed.");
+            return;
+        }
+
+        // Only move as many cards as there are available slots
+        int cardsToMove = Mathf.Min(selectedCards.Count, availableSlots);
+
+        for (int i = 0; i < cardsToMove; i++)
+        {
+            var card = selectedCards[i];
+
+            // Move card to play area
+            card.transform.SetParent(destination, worldPositionStays: false);
+
+            // Remove card from hand
+            if (CardHandSpawner.Instance != null)
+            {
+                CardHandSpawner.Instance.RemoveFromHand(card.gameObject);
+            }
+            else
+            {
+                Debug.LogWarning("CardHandSpawner.Instance is null — could not remove card from hand.");
+            }
+        }
+
+        // Remove only the cards that were actually moved from the selection list
+        selectedCards.RemoveRange(0, cardsToMove);
+
+        Debug.Log($"Moved {cardsToMove} card(s) to play area. Total now in area: {destination.childCount}.");
+    }
+
+
+
 
 }

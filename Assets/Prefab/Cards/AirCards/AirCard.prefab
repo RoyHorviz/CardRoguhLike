@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1769069736764234839}
   - component: {fileID: 6831577426766959390}
   - component: {fileID: 2500854534624244976}
+  - component: {fileID: 3286990209881200404}
   m_Layer: 0
   m_Name: AirCard
   m_TagString: Untagged
@@ -101,7 +102,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b291ab2513132e1429e5dfcdf63416f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enlargedScale: 1.2
-  normalScale: 1
-  deEmphasizedScale: 0.9
-  scalingDuration: 0.2
+--- !u!114 &3286990209881200404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703320031184895474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8841ff9c1f147ea43a2d1d1b6173aa1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHandManager: {fileID: 0}

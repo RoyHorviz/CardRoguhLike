@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6612325805231115302}
   - component: {fileID: 394593674935146325}
   - component: {fileID: 4919325606595712034}
+  - component: {fileID: 1789953682322710893}
   m_Layer: 0
   m_Name: EarthCard
   m_TagString: Untagged
@@ -101,7 +102,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b291ab2513132e1429e5dfcdf63416f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enlargedScale: 1.9
-  normalScale: 1
-  deEmphasizedScale: 0.9
-  scalingDuration: 0.8
+--- !u!114 &1789953682322710893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9062898119999960837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8841ff9c1f147ea43a2d1d1b6173aa1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHandManager: {fileID: 0}

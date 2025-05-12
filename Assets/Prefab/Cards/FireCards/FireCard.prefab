@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 3678462733951557197}
   - component: {fileID: 2869156915225364175}
   - component: {fileID: 8417059894913338815}
+  - component: {fileID: 73349575708551999}
+  - component: {fileID: 2940043254858744687}
   m_Layer: 0
   m_Name: FireCard
   m_TagString: Untagged
@@ -101,7 +103,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b291ab2513132e1429e5dfcdf63416f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enlargedScale: 1.9
-  normalScale: 1
-  deEmphasizedScale: 0.9
-  scalingDuration: 0.8
+--- !u!114 &73349575708551999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801462765661816863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8841ff9c1f147ea43a2d1d1b6173aa1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHandManager: {fileID: 0}
+--- !u!114 &2940043254858744687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801462765661816863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8841ff9c1f147ea43a2d1d1b6173aa1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHandManager: {fileID: 0}

@@ -10,12 +10,12 @@ public class Card : MonoBehaviour
     public ElementType Element { get; private set; } // Enum
 
     // Initialize the card properties
-    public void Init(string name, int damageRank, ElementType element ,string carddescription)
+    public void Init(string name, int damageRank, ElementType element, string cardDescription)
     {
         Name = name;
         DamageRank = damageRank;
         Element = element;
-        CardDescription = carddescription;
+        CardDescription = cardDescription;
     }
 
     // Return the damage rank
@@ -23,6 +23,13 @@ public class Card : MonoBehaviour
     {
         return DamageRank;
     }
+
+
+    public ElementType GetElement()
+    {
+        return Element;
+    }
+
 }
 
 // Enum for Element Types
