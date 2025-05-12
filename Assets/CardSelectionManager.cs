@@ -55,19 +55,24 @@ public class CardSelectionManager : MonoBehaviour
     /// </summary>
     public void DeselectAllCards()
     {
+        // Iterate over a copy of the selected cards to avoid modifying the collection while iterating
         foreach (var card in new List<CardClickScaler>(selectedCards))
         {
-            card.SetSelected(false); // Only visual and flag update
+            // Attempt to get the visual selection handler component
+            var handler = card.GetComponent<CardSelectionHandler>();
+            if (handler != null)
+            {
+                handler.Deselect(); // Restore visual state (opacity, etc.)
+            }
+
+            card.SetSelected(false); // Update the internal selection logic
         }
 
-        selectedCards.Clear(); // Clear logical selection
+        selectedCards.Clear(); // Clear the logical selection list
         Debug.Log("Deselect all called. Total selected after: " + selectedCards.Count);
     }
 
-    public IEnumerable<CardClickScaler> GetSelectedCards()
-    {
-        return selectedCards;
-    }
+
 
 
 
@@ -94,5 +99,9 @@ public class CardSelectionManager : MonoBehaviour
         return   this.selectedCards.Count;
     }
 
-   
+    public IEnumerable<CardClickScaler> GetSelectedCards()
+    {
+        return selectedCards;
+    }
+
 }

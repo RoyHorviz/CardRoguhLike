@@ -46,11 +46,9 @@ public class CardClickScaler : MonoBehaviour, IPointerClickHandler
     public void Discard()
     {
         isDiscarded = true;
-
-        // Fully deselect from selection manager
-        SetSelected(false, true); // 'true' makes sure it's removed from the list
-
-        gameObject.SetActive(false); // Hide the card
+        SetSelected(false, true);
+        CardHandSpawner.Instance.RemoveFromHand(this.gameObject);
+        Destroy(gameObject); // Destroys the card instead of hiding it
     }
 
 }

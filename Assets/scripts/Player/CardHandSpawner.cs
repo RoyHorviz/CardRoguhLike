@@ -37,6 +37,20 @@ public class CardHandSpawner : MonoBehaviour
     public List<GameObject> SpawnedCards { get; private set; } = new List<GameObject>();
     public List<GameObject> DiscardPile { get; private set; } = new List<GameObject>();
 
+    public static CardHandSpawner Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     private void Start()
     {
         // Bind play button to generate a random deck
@@ -53,7 +67,8 @@ public class CardHandSpawner : MonoBehaviour
 
         // Bind discard button to discard selected cards via CardSelectionManager
         if (discardButton != null)
-            discardButton.onClick.AddListener(() => {
+            discardButton.onClick.AddListener(() =>
+            {
                 CardSelectionManager.Instance.DiscardSelectedCards();
             });
         else
@@ -135,6 +150,16 @@ public class CardHandSpawner : MonoBehaviour
                 selection.Deselect();
                 selection.ShakeOnDeselect();
             }
+        }
+    }
+
+
+    public void RemoveFromHand(GameObject card)
+    {
+        if (SpawnedCards.Contains(card))
+        {
+            SpawnedCards.Remove(card);
+            Debug.Log("Removed card from SpawnedCards.");
         }
     }
 }
