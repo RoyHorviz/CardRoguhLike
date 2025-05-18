@@ -17,7 +17,9 @@ public class BattleManager : MonoBehaviour
     private void ExecuteBattle()
     {
         List<Card> playerCards = playerHand.GetSelectedCards();
-        List<Card> enemyCards = enemy.DrawRandomCards(playerCards.Count);
+        int countCards = playerCards.Count;
+        Debug.Log($"Player Cards Count From BattleManager is: {countCards}");
+        List<Card> enemyCards = enemy.DrawRandomCards(countCards);
         enemyHand.DisplayEnemyCards(enemyCards);
 
         for (int i = 0; i < playerCards.Count; i++)

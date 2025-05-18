@@ -31,14 +31,22 @@ public class Enemy : MonoBehaviour
     {
         List<Card> drawn = new List<Card>();
         List<Card> tempDeck = new List<Card>(deck);
-
-        for (int i = 0; i < count && tempDeck.Count > 0; i++)
+        Debug.Log($"Couunt we got from player count function is : {count}");
+        for (int i = 0; i < count; i++)
         {
-            int index = Random.Range(0, tempDeck.Count);
-            drawn.Add(tempDeck[index]);
-            tempDeck.RemoveAt(index);
+            if (tempDeck.Count > 0)
+            {
+                int index = Random.Range(0, tempDeck.Count);
+                drawn.Add(tempDeck[index]);
+                tempDeck.RemoveAt(index);
+            }
+            else
+            {
+                drawn.Add(null); // Add null if not enough cards in deck
+            }
         }
 
         return drawn;
     }
+
 }
